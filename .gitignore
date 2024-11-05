@@ -9,8 +9,6 @@ node_modules
 serverTest
 dist-ssr
 *.local
-netlify.toml
-.netlify
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -5,12 +5,12 @@ const PostMiddleware = {
         try {
             const apiKey  = req.query.apiKey
             if (!apiKey) {
-                throw new Error('Invalid API Key')
+                throw new Error('Authentication is required')
             }
             const values = (apiKey.match(/\$(.*?)\$/g) || []).map(match => match.slice(1, -1));
             const keyToPass = `${values[0]}/${values[1]}`            
             if (!GlobalData[keyToPass]  === values[2]) {    
-                throw new Error(`Invalid key`)
+                throw new Error(`Cannot authent into`)
             }
 
             next()

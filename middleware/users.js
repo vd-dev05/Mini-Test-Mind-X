@@ -43,17 +43,22 @@ const UsersMiddleware= {
         try {
             const user = await UsersModel.findOne({email : req.body.email})
             if (!user) {
-                throw new Error("Invalid email or password provided ")
+                throw new Error("Invalid email address provided !")
             }
             const validPassword =  bcrypt.compareSync(req.body.password, user.password)
             if (!validPassword) {
-                throw new Error("Invalid email or password")
+                throw new Error("Invalid password provided !")
             }
            
             const apiKey = await key(user._id,req.body.email)
-            req.apiKey = apiKey
             
-            return next();
+            if (apiKey) {
+                req.apiKey = apiKey
+                return next();
+            } else {
+                throw new Error('Invalid API key')
+            }
+           
         } catch (error) {
             res.status(403).json({message: error.message});
         }
